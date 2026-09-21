@@ -1,8 +1,17 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// VERSION VIEJA  var createError = require('http-errors');
+import createError from 'http-errors';
+ 
+//VERSION VIEJA var express = require('express');
+import express from 'express';
+
+//VERSION VIEJITA var path = require('path');
+import path from 'node:path';
+
+//VERSION VIEJA var cookieParser = require('cookie-parser');
+import cookieParser from 'cookie-parser';
+
+//VERSION VIEJA var logger = require('morgan');
+import logger from 'morgan';
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
