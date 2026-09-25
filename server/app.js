@@ -5,6 +5,7 @@ import createError from 'http-errors';
 import express from 'express';
 
 //VERSION VIEJITA var path = require('path');
+
 import path from 'node:path';
 
 //VERSION VIEJA var cookieParser = require('cookie-parser');
@@ -13,19 +14,29 @@ import cookieParser from 'cookie-parser';
 //VERSION VIEJA var logger = require('morgan');
 import logger from 'morgan';
 
+//importando biblioteca debug
+import createDebug from 'debug'; //🤏
+
 // var indexRouter = require('./routes/index');
 import indexRouter from './routes/index.js'
 // var usersRouter = require('./routes/users');
 import usersRouter from './routes/users.js'
 
+
+
+
 //Import para crear dirname
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path';
 
+//creacion del objeto debug
+const debug = createDebug('dwssr-2026b:server'); //🤏
 
 //Creando las variables 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+//Creando comentario
+debug("🪓 Creando backend")
 var app = express();
 
 // view engine setup
@@ -36,8 +47,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//configurar la carpeta de archivos estaticos
+debug("💾 Configurando carpeta de archivos estaticos")
 app.use(express.static(path.join(__dirname,'..','public')));
 
+//registrando rutas 
+debug("🛣️ Registrando rutas")
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
