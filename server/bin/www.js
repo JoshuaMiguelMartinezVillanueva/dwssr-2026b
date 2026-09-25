@@ -4,16 +4,12 @@
  * Module dependencies.
  */
 
-
 import app from '../app.js';
 
-//IMPORTANDO DEBUG
+// IMPORTANDO DEBUG
 import createDebug from 'debug';
 
-
-// ANTIGUA var debug = require('debug')('dwssr-2026b:server');
-
-//CREACION DE DEBUG
+// CREACION DE DEBUG
 const debug = createDebug('dwssr-2026b:server');
 
 import http from 'node:http';
@@ -30,14 +26,6 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -85,7 +73,7 @@ const onError = (error) => {
     default:
       throw error;
   }
-}
+};
 
 /**
  * Event listener for HTTP server "listening" event.
@@ -94,7 +82,16 @@ const onError = (error) => {
 const onListening = () => {
   const addr = server.address();
   const bind = typeof addr === 'string'
-    ? `Pipe ${addr}` //'pipe ' + addr
-    : `Port ${addr.port}`;// + addr.port;
+    ? `Pipe ${addr}`
+    : `Port ${addr.port}`;
   debug(`💻✨Listening on ${bind}`);
-}
+};
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+server.listen(port);
