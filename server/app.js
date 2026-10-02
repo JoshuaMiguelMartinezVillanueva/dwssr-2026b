@@ -1,43 +1,40 @@
-// VERSION VIEJA  var createError = require('http-errors');
+// VERSION VIEJA var createError = require('http-errors');
 import createError from 'http-errors';
- 
-//VERSION VIEJA var express = require('express');
+
+// VERSION VIEJA var express = require('express');
 import express from 'express';
 
-//VERSION VIEJITA var path = require('path');
-
+// VERSION VIEJITA var path = require('path');
 import path from 'node:path';
 
-//VERSION VIEJA var cookieParser = require('cookie-parser');
+// VERSION VIEJA var cookieParser = require('cookie-parser');
 import cookieParser from 'cookie-parser';
 
-//VERSION VIEJA var logger = require('morgan');
+// VERSION VIEJA var logger = require('morgan');
 import logger from 'morgan';
 
-//importando biblioteca debug
-import createDebug from 'debug'; //🤏
+// Herramienta de depuracion
+import Debug from 'debug';
 
-// var indexRouter = require('./routes/index');
-import indexRouter from './routes/index.js'
-// var usersRouter = require('./routes/users');
-import usersRouter from './routes/users.js'
+// Import de dependencias relativas de tu proyecto
+import indexRouter from './routes/index.js';
+import usersRouter from './routes/users.js';
 
-
-
-
-//Import para crear dirname
-import { fileURLToPath } from 'node:url'
+// Import para crear __dirname en ES Modules
+import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 
-//creacion del objeto debug
-const debug = createDebug('dwssr-2026b:server'); //🤏
+// Inicializa debug con el namespace deseado (una sola declaración)
+const debug = Debug('dwssr-2026b:app');
 
-//Creando las variables 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-//Creando comentario
-debug("🪓 Creando backend")
-var app = express();
+// Creando las variables para __filename y __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Mensaje de log al inicializar
+debug("🪓 Creando backend");
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,22 +45,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//configurar la carpeta de archivos estaticos
-debug("💾 Configurando carpeta de archivos estaticos")
-app.use(express.static(path.join(__dirname,'..','public')));
+// Configurar la carpeta de archivos estaticos
+debug("💾 Configurando carpeta de archivos estaticos");
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-//registrando rutas 
-debug("🛣️ Registrando rutas")
+// Registrando rutas 
+debug("🛣️ Registrando rutas");
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -73,5 +70,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//module.exports = app;
 export default app;
