@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./server/bin/www.js",
     "dev": "cross-env DEBUG=dwssr-2026b:* nodemon ./server/bin/www.js",
-    "greet" : "echo 'hola perrilloooo'"
+    "greet": "echo 'hola perrilloooo'"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -18,12 +18,11 @@
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "vite": "^8.3.2"
   },
-  
-"imports":{
-"#server/*": "./server/*",
-"#routes/*": "./server/routes/*"
-}
-
+  "imports": {
+    "#server/*": "./server/*",
+    "#routes/*": "./server/routes/*"
+  }
 }
