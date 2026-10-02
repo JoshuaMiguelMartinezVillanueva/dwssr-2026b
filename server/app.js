@@ -17,8 +17,8 @@ import logger from 'morgan';
 import Debug from 'debug';
 
 // Import de dependencias relativas de tu proyecto
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
+import indexRouter from '#routes/index.js'; //forma con alias
+import usersRouter from '#routes/users.js'; //forma con alias
 
 // Import para crear __dirname en ES Modules
 import { fileURLToPath } from 'node:url';
