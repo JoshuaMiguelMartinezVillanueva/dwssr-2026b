@@ -65,6 +65,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Registrando rutas 
 debug("🛣️ Registrando rutas");
+// dominio = /
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
