@@ -86,4 +86,16 @@ app.use((err, req, res, _next) => {
   res.render('error');
 });
 
+// codigo inalcanzable 
+//(() => {
+//  let age = 10
+//  return age
+//  if (age == 10) {
+//    console.log("Tienes 10 años")
+//  } else {
+//    console.log("No tienes 10 años")
+//  }
+//})()
+
+
 export default app;
