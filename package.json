@@ -4,9 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node ./server/bin/www.js",
+    "start": "NODE_ENV=production node ./server/bin/www.js",
     "dev": "cross-env DEBUG=dwssr-2026b:* nodemon ./server/bin/www.js",
-    "greet" : "echo 'hola perrilloooo'"
+    "dev:vite": "vite",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:vite\"",
+    "build": "vite build",
+    "preview": "npm run build && npm start",
+    "greet": "echo 'hola perrilloooo'",
+    "lint:all": "npm run lint:back && npm run lint:front",
+    "lint:back": "eslint \"server/**/*.js\"",
+    "lint:front": "eslint \"src/**/*.js\"",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -17,8 +25,17 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.5",
     "cross-env": "^10.1.0",
-    "nodemon": "^3.1.14"
-  
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "nodemon": "^3.1.14",
+    "vite": "^8.3.2"
+  },
+  "imports": {
+    "#server/*": "./server/*",
+    "#routes/*": "./server/routes/*"
   }
 }

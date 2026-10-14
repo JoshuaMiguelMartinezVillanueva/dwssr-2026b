@@ -16,13 +16,12 @@ import logger from 'morgan';
 // Herramienta de depuracion
 import Debug from 'debug';
 
-// Import de dependencias relativas de tu proyecto
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
-
 // Import para crear __dirname en ES Modules
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
+
+// Importando el template engine de Handlebars
+import hbs from 'hbs';
 
 // Inicializa debug con el namespace deseado (una sola declaración)
 const debug = Debug('dwssr-2026b:app');
@@ -30,6 +29,13 @@ const debug = Debug('dwssr-2026b:app');
 // Creando las variables para __filename y __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Import de dependencias relativas de tu proyecto
+import indexRouter from '#routes/index.js'; // forma con alias
+import usersRouter from '#routes/users.js'; // forma con alias
+
+// Importando el registrador del Helper 
+import { registerViteHelper } from './lib/vite.js';
 
 // Mensaje de log al inicializar
 debug("🪓 Creando backend");
@@ -39,6 +45,14 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+// Register Helper
+registerViteHelper(hbs);
+
+// Archivos estaticos de Produccion
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '..', 'dist')));
+}
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -51,6 +65,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Registrando rutas 
 debug("🛣️ Registrando rutas");
+// dominio = /
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -60,7 +75,8 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+
+app.use((err, req, res, _next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -69,5 +85,17 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// codigo inalcanzable 
+//(() => {
+//  let age = 10
+//  return age
+//  if (age == 10) {
+//    console.log("Tienes 10 años")
+//  } else {
+//    console.log("No tienes 10 años")
+//  }
+//})()
+
 
 export default app;
