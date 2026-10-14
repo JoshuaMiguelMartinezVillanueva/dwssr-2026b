@@ -4,7 +4,7 @@ const router = express.Router();
 let cont = 0;
 const numbers = []
 /* GET home page. */
-router.get('/', (req, res, next) => { 
+router.get('/', (req, res, _next) => { 
   cont++;
   numbers.push(cont);
   res.render('index', { 
