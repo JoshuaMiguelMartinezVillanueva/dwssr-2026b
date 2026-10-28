@@ -11,7 +11,9 @@ import path from 'node:path';
 import cookieParser from 'cookie-parser';
 
 // VERSION VIEJA var logger = require('morgan');
-import logger from 'morgan';
+import morgan from 'morgan';
+
+
 
 // Herramienta de depuracion
 import Debug from 'debug';
@@ -54,7 +56,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
 }
 
-app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

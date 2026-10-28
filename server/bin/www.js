@@ -32,16 +32,16 @@ const server = http.createServer(app);
  */
 
 function normalizePort(val) {
-  const port = parseInt(val, 10);
+  const parsedPort = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (isNaN(parsedPort)) {
     // named pipe
     return val;
   }
 
-  if (port >= 0) {
+  if (parsedPort >= 0) {
     // port number
-    return port;
+    return parsedPort;
   }
 
   return false;
@@ -63,11 +63,11 @@ const onError = (error) => {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${bind} requires elevated privileges`);
+      process.stderr.write(`${bind} requires elevated privileges\n`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(`${bind} is already in use`);
+      process.stderr.write(`${bind} is already in use\n`);
       process.exit(1);
       break;
     default:

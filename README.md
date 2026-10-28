@@ -37,3 +37,17 @@ El participante identifica los frameworks más utilizados en la industria para e
 | ⚡    | **perf**   | Mejoras de rendimiento                           |
 | 📦    | **build**  | Cambios en el sistema de build o dependencias    |
 | 🤖    | **ci**     | Cambios en la configuración de CI/CD             |
+
+# 🧹 instalacion de la guia de estilo de airbnb 
+
+
+para obtener instlara la guia de estilo de airbnb necesitamos tener las siguientes dependencias ;
+
+- ⭐⭐⭐ `@eslint/eslintrc`
+- `@eslint/js permite a eslint`
+- `eslint`
+- ⭐⭐⭐ `eslint-config-airbnb-base` contiene las definiciones basicas de la guia de estilos de airbnb para javascrpit 
+
+- `eslint-config-prettier` sirve para acoplar eslint con prettier 
+- ⭐⭐⭐ `eslint-pluggin-import` sirve para poder iportar configuraciones 
+- `globals`  tiene varias globals oimportantes en la plataforma
