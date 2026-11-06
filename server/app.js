@@ -1,108 +1,74 @@
-// VERSION VIEJA var createError = require('http-errors');
 import createError from 'http-errors';
-
-// VERSION VIEJA var express = require('express');
 import express from 'express';
-
-// VERSION VIEJITA var path = require('path');
 import path from 'node:path';
-
-// VERSION VIEJA var cookieParser = require('cookie-parser');
 import cookieParser from 'cookie-parser';
-
-// VERSION VIEJA var logger = require('morgan');
 import morgan from 'morgan';
-
-
-
-// Herramienta de depuracion
 import Debug from 'debug';
-
-// Import para crear __dirname en ES Modules
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 
-// Importando el template engine de Handlebars
-import hbs from 'hbs';
-
-// Import de dependencias relativas de tu proyecto
-import indexRouter from '#routes/index.js'; // forma con alias
-import usersRouter from '#routes/users.js'; // forma con alias
-
-// Importando el registrador del Helper 
-import { registerViteHelper } from './lib/vite.js';
-
-// Importando la configuracion de winston logger
+// Importando la configuración de winston logger
+import indexRouter from '#routes/index.js';
+import usersRouter from '#routes/users.js';
 import logger from './lib/winston.js';
 
-// Inicializa debug con el namespace deseado (una sola declaración)
+// Importando el template engine de Handlebars y la configuración
+import configureHandlebars from './lib/handlebars.js';
+
+// Import de dependencias relativas del proyecto (con alias)
+
+// Inicializa debug con el namespace deseado
 const debug = Debug('dwssr-2026b:app');
 
-// Creando las variables para __filename y __dirname
+// Creando las variables para __filename y __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+const __dirname = path.dirname(__filename);
 
 // Mensaje de log al inicializar
-debug("🪓 Creando backend");
+logger.debug("🪓 Creando backend");
 
 const app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// Register Helper
-registerViteHelper(hbs);
+// Register Helper de Handlebars
+configureHandlebars(app);
 
-// Archivos estaticos de Produccion
+// Archivos estáticos de Producción
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
 }
 
-//Configuracion de midlewares
-app.use(morgan('dev', { stream: { write: (msg) => logger.info(msg.trim()) } }),);
+// Configuración de middlewares
+app.use(morgan('dev', { stream: { write: (msg) => logger.info(msg.trim()) } }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Configurar la carpeta de archivos estaticos
-debug("💾 Configurando carpeta de archivos estaticos");
+// Configurar la carpeta de archivos estáticos
+logger.debug("💾 Configurando carpeta de archivos estaticos");
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Registrando rutas 
-debug("🛣️ Registrando rutas");
-// dominio = /
+logger.debug("🛣️ Registrando rutas");
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
-
+// Error handler
 app.use((err, req, res, _next) => {
-  // set locals, only providing error in development
+  // Set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Render the error page
   res.status(err.status || 500);
   res.render('error');
 });
-
-// codigo inalcanzable 
-//(() => {
-//  let age = 10
-//  return age
-//  if (age == 10) {
-//    console.log("Tienes 10 años")
-//  } else {
-//    console.log("No tienes 10 años")
-//  }
-//})()
-
 
 export default app;
