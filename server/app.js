@@ -25,6 +25,16 @@ import { dirname } from 'node:path';
 // Importando el template engine de Handlebars
 import hbs from 'hbs';
 
+// Import de dependencias relativas de tu proyecto
+import indexRouter from '#routes/index.js'; // forma con alias
+import usersRouter from '#routes/users.js'; // forma con alias
+
+// Importando el registrador del Helper 
+import { registerViteHelper } from './lib/vite.js';
+
+// Importando la configuracion de winston logger
+import logger from './lib/winston.js';
+
 // Inicializa debug con el namespace deseado (una sola declaración)
 const debug = Debug('dwssr-2026b:app');
 
@@ -32,12 +42,6 @@ const debug = Debug('dwssr-2026b:app');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Import de dependencias relativas de tu proyecto
-import indexRouter from '#routes/index.js'; // forma con alias
-import usersRouter from '#routes/users.js'; // forma con alias
-
-// Importando el registrador del Helper 
-import { registerViteHelper } from './lib/vite.js';
 
 // Mensaje de log al inicializar
 debug("🪓 Creando backend");
@@ -56,7 +60,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
 }
 
-app.use(morgan('dev'));
+//Configuracion de midlewares
+app.use(morgan('dev', { stream: { write: (msg) => logger.info(msg.trim()) } }),);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
