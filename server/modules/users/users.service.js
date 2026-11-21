@@ -1,5 +1,5 @@
 import findAllUsers from './users.model.js';
 
-export function listUsers(){
+export default function listUsers(){
   return findAllUsers();
 }

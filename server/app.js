@@ -7,7 +7,7 @@ import Debug from 'debug';
 import { fileURLToPath } from 'node:url';
 
 // Importando la configuración de winston logger
-import indexRouter from '#routes/index.js';
+import { homeRouter, diagRouter } from '#routes/index.js';
 import usersRouter from '#routes/users.js';
 import logger from './lib/winston.js';
 
@@ -52,8 +52,13 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Registrando rutas 
 logger.debug("🛣️ Registrando rutas");
-app.use('/', indexRouter);
+app.use('/', homeRouter);
+//Se enruta si solo estamos en modo desarrollo 
+if(process.env.NODE.ENV !== 'production'){
+app.use('/', diagRouter);
+}
 app.use('/users', usersRouter);
+
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
