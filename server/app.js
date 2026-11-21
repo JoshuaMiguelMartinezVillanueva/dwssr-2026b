@@ -3,7 +3,6 @@ import express from 'express';
 import path from 'node:path';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import Debug from 'debug';
 import { fileURLToPath } from 'node:url';
 
 // Importando la configuración de winston logger
@@ -15,9 +14,6 @@ import logger from './lib/winston.js';
 import configureHandlebars from './lib/handlebars.js';
 
 // Import de dependencias relativas del proyecto (con alias)
-
-// Inicializa debug con el namespace deseado
-const debug = Debug('dwssr-2026b:app');
 
 // Creando las variables para __filename y __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
